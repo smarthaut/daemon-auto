@@ -7,8 +7,8 @@ mysql:
      host: 172.17.1.20
      port: 3306
      user: dev
-     #passwd: Dev123!@
-     passwd: 54dFgd%s
+     #passwd: 
+     passwd: 
      db: dbzhb
 
 log:
