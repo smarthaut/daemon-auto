@@ -1,0 +1,102 @@
+#数据库配置
+mysql:
+    #测试环境
+     #host: 172.17.2.44
+     #正式环境
+     #host: 172.17.8.33
+     host: 172.17.1.20
+     port: 3306
+     user: dev
+     #passwd: Dev123!@
+     passwd: 54dFgd%s
+     db: dbzhb
+
+log:
+    console_level: INFO
+
+#测试环境切换
+env: https://www.zhbbroker.com
+#env: https://www.zhbbroker.cn
+
+#data/.xls
+data: appcasedate.xlsx
+
+app:
+   version: 4.2.0
+
+
+
+
+#用户配置
+User:
+    #多家账户18622928103
+    mul_user: 18622928103
+    mul_pwd: 89a5028ef7f4421b6b929e40a50d1bd577a45b06450120342a895ddbd23f6e28
+    #单家账户：
+    single_user: 17621968863
+    single_pwd: 89a5028ef7f4421b6b929e40a50d1bd577a45b06450120342a895ddbd23f6e28
+
+insured:
+    force_only: 0
+    choose_force: 0
+    car_broken: 1
+    car_burn: 0
+    car_rob: 0
+    wade_water: 0
+    third_party: 500000
+    driver_seat: 10000
+    passenger_seat: 10000
+    glass_broken: 0
+    scratch: 0
+    specify_repair_factory: 0
+    find_no_third_party: 0
+    third_party_double_on_holiday: 0
+    non_deduct_car_broken: 1
+    non_deduct_car_rob: 0
+    non_deduct_driver_seat: 1
+    non_deduct_passenger_seat: 1
+    non_deduct_third_party: 1
+    non_deduct_scratch: 0
+    non_deduct_wade_water: 0
+    non_deduct_car_burn: 0
+    pay_tax: 1
+    user_ins_start_date_change: 1
+    user_force_start_date_change: 1
+    ins_start_date: ''
+    ins_start_hour: ''
+    force_start_date: ''
+    force_start_hour: ''
+    price_channel: more
+    charged_matched: 0
+    validate_start_date: 1
+    id: 0
+    immediate_effect: 1
+    provider: ''
+    insured_same_as_owner: 1
+    applicant_same_as_owner: 1
+    add_only : 0
+    insured_province : ''
+    insured_city : ''
+    insured_district: ''
+    insured_detail : ''
+    car_id : ''
+    customer_id : ''
+    gen_new_order: ''
+    post_time_stamp : ''
+    order_id: ''
+    has_addressee_info : '1'
+    addressee_name : ''
+    addressee_mobile : ''
+    addressee_province : ''
+    addressee_city : ''
+    addressee_area : ''
+    addressee_detail : ''
+    is_self_fetch : 0
+    fetch_method : 1
+    district: ''
+    insurance_company: ''
+    city: ''
+    product_source: ''
+    com_id: ''
+    message: ''
+    display_name: ''

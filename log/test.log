@@ -1,0 +1,4 @@
+2019-04-09 13:35:34,448 - he - INFO - info message
+2019-04-09 13:35:34,449 - he - DEBUG - debug message
+2019-04-09 13:35:34,449 - he - CRITICAL - ce message
+2019-04-09 13:35:34,449 - he - ERROR - error meaagse
