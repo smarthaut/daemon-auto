@@ -5,6 +5,7 @@
 # @Site    : 
 # @File    : log.py
 # @Software: PyCharm
+#NOTSET DEBUG INFO WARNING ERROR CRITICAL
 import logging
 import os
 from logging.handlers import TimedRotatingFileHandler
@@ -56,5 +57,5 @@ if __name__ == '__main__':
     logger = Logger(loggername='he').get_logger()
     logger.info('info message')
     logger.debug('debug message')
-    logger.critical('ce message')
+    logger.critical('cr message')
     logger.error('error meaagse')

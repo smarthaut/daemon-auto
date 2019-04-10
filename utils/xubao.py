@@ -46,5 +46,6 @@ def get_mul_insured():
 
 
 if __name__ == '__main__':
-    result= get_mul_insured()
-    print(result)
+    source = [{'province': '四川', 'city': '', 'district': ''}]
+    alldata = get_alldata(source=source, date='2016-01-01')
+    print(alldata)

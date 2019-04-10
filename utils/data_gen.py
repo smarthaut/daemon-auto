@@ -643,38 +643,36 @@ def get_licno(frame):
     return frame+"".join(random.choice("0123456789") for i in range(5))
 
 #生成指定的xml名
+#source = [{'province':'','city':''}]
 def get_xml_v2(source=[]):
-    http = BaseHttp(method='get', host='')
-    http.cookie = ''
-    http.url = 'http://zuihuibao-com-public.zuihuibao.com/region_v85.json'
-    data = http.get_post()
+    data = get_ori_data()
     xml_list = []
     #传值为空
     if len(source)==0:
-        for i in range(len(data.json()['region'])):
-            province = data.json()['region'][i]['province']
-            for j in range(len(data.json()['region'][i]['city_list'])):
-                city = data.json()['region'][i]['city_list'][j]['city']
+        for i in range(len(data)):
+            province = data[i]['province']
+            for j in range(len(data[i]['city_list'])):
+                city = data[i]['city_list'][j]['city']
                 xml = province + '_' + city + '.xml'
                 xml_list.append(xml)
     else:
         for i in range(len(source)):
             sprovince = source[i]['province']
             if source[i]['city'] == '':
-                for i in range(len(data.json()['region'])):
-                    province = data.json()['region'][i]['province']
+                for i in range(len(data)):
+                    province = data[i]['province']
                     if province == sprovince:
-                        for j in range(len(data.json()['region'][i]['city_list'])):
-                            city = data.json()['region'][i]['city_list'][j]['city']
+                        for j in range(len(data[i]['city_list'])):
+                            city = data[i]['city_list'][j]['city']
                             xml = province + '_' + city + '.xml'
                             xml_list.append(xml)
             else:
                 scity = source[i]['city']
-                for i in range(len(data.json()['region'])):
-                    province = data.json()['region'][i]['province']
+                for i in range(len(data)):
+                    province = data[i]['province']
                     if province ==sprovince:
-                        for j in range(len(data.json()['region'][i]['city_list'])):
-                            city = data.json()['region'][i]['city_list'][j]['city']
+                        for j in range(len(data[i]['city_list'])):
+                            city = data[i]['city_list'][j]['city']
                             if city ==scity:
                                 xml = province + '_' + city + '.xml'
                                 xml_list.append(xml)
@@ -685,41 +683,36 @@ def get_xml_v2(source=[]):
             new_list.append(i)
     return new_list
 
-
-
-
-
-
-
 #根据省份城市随机获取区县
 def get_district(province,city):
-    http = BaseHttp(method='get', host='')
-    http.cookie = ''
-    http.url = 'http://zuihuibao-com-public.zuihuibao.com/region_v85.json'
-    data = http.get_post()
-    for i in range(len(data.json()['region'])):
-        province_value = data.json()['region'][i]['province']
+    data = get_ori_data()
+    for i in range(len(data)):
+        province_value = data[i]['province']
         if province_value ==province :
-            for j in range(len(data.json()['region'][i]['city_list'])):
-                city_value = data.json()['region'][i]['city_list'][j]['city']
+            for j in range(len(data[i]['city_list'])):
+                city_value = data[i]['city_list'][j]['city']
                 if city_value == city:
                     try:
-                        n= random.randint(1,len(data.json()['region'][i]['city_list'][j]['district_list']))
-                        district = data.json()['region'][i]['city_list'][j]['district_list'][n-1]
+                        n= random.randint(1,len(data[i]['city_list'][j]['district_list']))
+                        district = data[i]['city_list'][j]['district_list'][n-1]
                         return district
                     except:
                         district = ''
                         return district
 
+
+def get_ori_data():
+    with open(os.path.join(Path().get_data_path(), 'ProvinceCity.json'), 'r', encoding='utf-8')as f:
+        data = json.load(f)['region']
+    return data
+
+
 #根据当前时间获取三个省份
 def get_province_by_date():
-    http = BaseHttp(method='get', host='')
-    http.cookie = ''
-    http.url = 'http://zuihuibao-com-public.zuihuibao.com/region_v85.json'
-    data = http.get_post()
+    data = get_ori_data()
     province_list = []
-    for i in range(len(data.json()['region'])):
-        province_value = data.json()['region'][i]['province']
+    for i in range(len(data)):
+        province_value = data[i]['province']
         if province_value != '江苏':
             mindata = {}
             mindata['province']=province_value
@@ -737,17 +730,14 @@ def get_province_by_date():
 
 #获取所有的省份，城市
 def get_province():
-    http = BaseHttp(method='get', host='')
-    http.cookie = ''
-    http.url = 'http://zuihuibao-com-public.zuihuibao.com/region_v85.json'
-    data = http.get_post()
+    data = get_ori_data()
     province_list = []
-    for i in range(len(data.json()['region'])):
-        province_value = data.json()['region'][i]['province']
-        for j in range(len(data.json()['region'][i]['city_list'])):
+    for i in range(len(data)):
+        province_value = data[i]['province']
+        for j in range(len(data[i]['city_list'])):
             mindata = {}
             mindata['province'] = province_value
-            mindata['city'] = data.json()['region'][i]['city_list'][j]['city']
+            mindata['city'] = data[i]['city_list'][j]['city']
             mindata['district'] = ''
             province_list.append(mindata)
     return province_list
@@ -764,16 +754,16 @@ def get_province_city():
     basehttp = BaseHttp(method='post',host='https://www.zhbbroker.com')
     basehttp.cookie = get_pwd_cookie(type='single')
     basehttp.set_url('/yiiapp/car-ins/price-configuration-merge')
-    for i in range(len(data.json()['region'])):
+    for i in range(len(data)):
         params={'version':'4.2.1'}
-        province = data.json()['region'][i]['province']
+        province = data[i]['province']
         params['province']=province
         #存在city为空的情况
-        if len(data.json()['region'][i]['city_list']) == 0:
+        if len(data[i]['city_list']) == 0:
             xml_list = xml_list
         else:
-            for j in range(len(data.json()['region'][i]['city_list'])):
-                city = data.json()['region'][i]['city_list'][j]['city']
+            for j in range(len(data[i]['city_list'])):
+                city = data[i]['city_list'][j]['city']
                 params['city'] = city
                 basehttp.set_params(params)
                 r = basehttp.get_post()
@@ -792,7 +782,7 @@ def get_province_city():
             new_list.append(i)
     return new_list
 
-
+#获取车牌首位
 def get_li_beg(province,city):
     with open(Path().get_lce_path(),'r',encoding='utf-8') as f:
         data_dict = json.load(f)
@@ -807,14 +797,9 @@ def get_li_beg(province,city):
 
 #添加省市参数化
 def get_source():
-    with open(Path().get_config_path(filename='setting.json'),'r',encoding='utf-8') as f:
-        data_dict = json.load(f)['data']
-        '''for i in range(len(data_dict['data'])):
-            pro = data_dict['data'][i]['province']
-            cit = data_dict['data'][i]['city']
-            district = data_dict['data'][i]['city']
-        '''
-        return data_dict
+    with open(os.path.join(Path().get_data_path(), 'Setting.json'), 'r', encoding='utf-8')as f:
+        data = json.load(f)['data']
+        return data
 
 #获取全国所有的省市区
 def get_all_province_city():
@@ -834,21 +819,9 @@ def get_all_province_city():
                     pcdata.append(mdata)
         return pcdata
 
-
-
-
 if __name__ =='__main__':
-    #list = get_xml(provinces=['江苏'],cities=['南京'])
-    #n = 3  # 大列表中几个数据组成一个小列表
-    #print([list[i:i + n] for i in range(0, len(list), n)])
-    #print(int(get_currenttime())%10)
-    #list= get_province()
+    #source = [{'province':'河南','city':''}]
+    #list = get_xml_v2(source)
     #print(list)
-    #list = get_xml(provinces=['云南'],cities=['昆明'])
-    #list = get_xml_v2(source=[{'province': '浙江', 'city': '绍兴', 'district': ''}, {'province': '浙江', 'city': '', 'district': ''}])
-    #print(list)
-    #list = get_province()
-    #list= get_province_city()
-    #print(list)
-    list = get_vin()
+    list = get_all_province_city()
     print(list)
